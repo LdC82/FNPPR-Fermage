@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { controleBornesPrefectorales } from "../lib/fermage";
 import { formaterEuros, formaterNombre } from "../lib/format";
+import { BAREMES_PREFECTORAUX } from "../data/baremes";
 
 const LIBELLE_CONFORMITE = {
   conforme: "Loyer conforme à la fourchette",
@@ -13,6 +14,29 @@ export function BornesPrefectorales() {
   const [minHa, setMinHa] = useState("80");
   const [maxHa, setMaxHa] = useState("180");
   const [loyer, setLoyer] = useState("1500");
+
+  // Preset (barème préfectoral) sélectionné
+  const [departementCode, setDepartementCode] = useState("");
+  const [categorieId, setCategorieId] = useState("");
+
+  const departement = BAREMES_PREFECTORAUX.find(
+    (b) => b.code === departementCode,
+  );
+
+  function appliquerPreset(code: string, catId: string) {
+    setDepartementCode(code);
+    setCategorieId(catId);
+    const dep = BAREMES_PREFECTORAUX.find((b) => b.code === code);
+    const cat = dep?.categories.find((c) => c.id === catId);
+    if (cat) {
+      setMinHa(String(cat.minParHa));
+      setMaxHa(String(cat.maxParHa));
+    }
+  }
+
+  const categorieActive = departement?.categories.find(
+    (c) => c.id === categorieId,
+  );
 
   const calcul = useMemo(() => {
     const s = Number(surface.replace(",", "."));
@@ -35,9 +59,68 @@ export function BornesPrefectorales() {
       <p className="intro">
         Le loyer d'un bail rural doit rester dans la fourchette (minimum /
         maximum par hectare) fixée par l'<strong>arrêté préfectoral</strong> de
-        votre département, selon la nature et la catégorie des terres. Saisissez
-        les bornes de votre arrêté pour vérifier la conformité d'un loyer.
+        votre département, selon la nature et la catégorie des terres. Choisissez
+        un barème pré-rempli ou saisissez les bornes de votre arrêté.
       </p>
+
+      {/* Sélecteur de barème préfectoral (preset) */}
+      <div className="grille" style={{ marginBottom: "0.5rem" }}>
+        <div className="champ">
+          <label htmlFor="departement">Département (barème pré-rempli)</label>
+          <span className="aide">Pré-remplit les bornes par hectare</span>
+          <select
+            id="departement"
+            value={departementCode}
+            onChange={(e) => {
+              const code = e.target.value;
+              const dep = BAREMES_PREFECTORAUX.find((b) => b.code === code);
+              const premiere = dep?.categories[0];
+              if (code && premiere) {
+                appliquerPreset(code, premiere.id);
+              } else {
+                setDepartementCode("");
+                setCategorieId("");
+              }
+            }}
+          >
+            <option value="">Saisie manuelle</option>
+            {BAREMES_PREFECTORAUX.map((b) => (
+              <option key={b.code} value={b.code}>
+                {b.code} — {b.departement}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {departement && (
+          <div className="champ" style={{ gridColumn: "span 2" }}>
+            <label htmlFor="categorie">Catégorie de bien</label>
+            <span className="aide">Nature / culture concernée</span>
+            <select
+              id="categorie"
+              value={categorieId}
+              onChange={(e) => appliquerPreset(departementCode, e.target.value)}
+            >
+              {departement.categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.libelle}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+      </div>
+
+      {departement && (
+        <p className="intro" style={{ fontSize: "0.85rem", marginBottom: "1rem" }}>
+          Barème : {departement.arrete} ({departement.campagne}).{" "}
+          <a href={departement.sourceUrl} target="_blank" rel="noopener noreferrer">
+            Source officielle
+          </a>
+          {categorieActive?.note ? ` — ${categorieActive.note}` : ""} Vérifiez
+          toujours l'arrêté en vigueur avant toute décision.
+        </p>
+      )}
 
       <div className="grille">
         <div className="champ">
@@ -56,7 +139,11 @@ export function BornesPrefectorales() {
             id="min-ha"
             inputMode="decimal"
             value={minHa}
-            onChange={(e) => setMinHa(e.target.value)}
+            onChange={(e) => {
+              setMinHa(e.target.value);
+              setDepartementCode("");
+              setCategorieId("");
+            }}
           />
         </div>
         <div className="champ">
@@ -66,7 +153,11 @@ export function BornesPrefectorales() {
             id="max-ha"
             inputMode="decimal"
             value={maxHa}
-            onChange={(e) => setMaxHa(e.target.value)}
+            onChange={(e) => {
+              setMaxHa(e.target.value);
+              setDepartementCode("");
+              setCategorieId("");
+            }}
           />
         </div>
         <div className="champ">

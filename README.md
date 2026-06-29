@@ -12,7 +12,8 @@ hébergé sur n'importe quel hébergement statique (GitHub Pages, Netlify…).
    avec le détail du calcul et un **historique année par année**.
 2. **Bornes préfectorales** — vérifie qu'un loyer respecte la fourchette
    (minimum / maximum par hectare) fixée par l'arrêté préfectoral du
-   département, pour une surface donnée.
+   département, pour une surface donnée. Des **barèmes pré-remplis** par
+   département sont proposés (voir ci-dessous), avec saisie manuelle possible.
 3. **Conversion en denrées** — convertit un ancien bail exprimé en denrées
    (quintaux de blé, hectolitres de vin…) en montant annuel en euros.
 4. **Tableau des indices** — l'indice national des fermages de 2009 à 2025.
@@ -33,6 +34,31 @@ Sources :
 
 - [Arrêté du 23 juillet 2025](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000051987943) — indice 2025 = 123,06 (+0,42 %)
 - [Arrêté du 17 juillet 2024](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000050058521) — indice 2024 = 122,55 (+5,23 %)
+
+## Barèmes préfectoraux
+
+Les fourchettes de loyer (minima / maxima par hectare) sont fixées
+**département par département** par arrêté préfectoral, révisé chaque année et
+variable selon la nature et la catégorie des terres. Il n'existe pas de barème
+national unique.
+
+Les barèmes pré-remplis sont stockés dans
+[`src/data/baremes.ts`](src/data/baremes.ts). Le fichier est amorcé avec un
+barème réel et sourcé (département du **Cher**, arrêté DDT-2024-376 du
+19 septembre 2024). **Pour ajouter un département**, ajoutez une entrée à
+`BAREMES_PREFECTORAUX` en recopiant les minima/maxima de l'arrêté préfectoral en
+vigueur, avec sa référence, sa campagne et l'URL de la source officielle. Pour
+les départements absents, l'utilisateur saisit les valeurs de son propre arrêté.
+
+## Déploiement
+
+Un workflow GitHub Actions ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml))
+construit et publie le site sur **GitHub Pages** à chaque push sur `main`.
+
+Pour l'activer : dans les réglages du dépôt, **Settings → Pages → Build and
+deployment → Source : GitHub Actions**. Le site sera alors disponible sur
+`https://<utilisateur>.github.io/FNPPR-Fermage/`. La configuration Vite utilise
+un `base` relatif, compatible avec un hébergement en sous-répertoire.
 
 ## Développement
 
