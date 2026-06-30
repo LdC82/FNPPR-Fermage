@@ -4,6 +4,7 @@ import { BornesPrefectorales } from "./components/BornesPrefectorales";
 import { DenreesConverter } from "./components/DenreesConverter";
 import { TaxeFonciere } from "./components/TaxeFonciere";
 import { IndicesTable } from "./components/IndicesTable";
+import { RevueAd } from "./components/RevueAd";
 import { ANNEE_MAX } from "./data/indices";
 import logoUrl from "./assets/logo-fnppr.jpg";
 
@@ -48,24 +49,30 @@ export function App() {
       </header>
 
       <main>
-        <nav className="tabs" aria-label="Modules de calcul">
-          {ONGLETS.map((o) => (
-            <button
-              key={o.id}
-              className={onglet === o.id ? "active" : undefined}
-              onClick={() => setOnglet(o.id)}
-              aria-pressed={onglet === o.id}
-            >
-              {o.libelle}
-            </button>
-          ))}
-        </nav>
+        <div className="layout">
+          <RevueAd />
 
-        {onglet === "indexation" && <IndexationCalculator />}
-        {onglet === "bornes" && <BornesPrefectorales />}
-        {onglet === "taxe" && <TaxeFonciere />}
-        {onglet === "denrees" && <DenreesConverter />}
-        {onglet === "indices" && <IndicesTable />}
+          <div className="contenu">
+            <nav className="tabs" aria-label="Modules de calcul">
+              {ONGLETS.map((o) => (
+                <button
+                  key={o.id}
+                  className={onglet === o.id ? "active" : undefined}
+                  onClick={() => setOnglet(o.id)}
+                  aria-pressed={onglet === o.id}
+                >
+                  {o.libelle}
+                </button>
+              ))}
+            </nav>
+
+            {onglet === "indexation" && <IndexationCalculator />}
+            {onglet === "bornes" && <BornesPrefectorales />}
+            {onglet === "taxe" && <TaxeFonciere />}
+            {onglet === "denrees" && <DenreesConverter />}
+            {onglet === "indices" && <IndicesTable />}
+          </div>
+        </div>
       </main>
 
       <footer className="app-footer">
