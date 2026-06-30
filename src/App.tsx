@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IndexationCalculator } from "./components/IndexationCalculator";
 import { BornesPrefectorales } from "./components/BornesPrefectorales";
 import { DenreesConverter } from "./components/DenreesConverter";
+import { TaxeFonciere } from "./components/TaxeFonciere";
 import { IndicesTable } from "./components/IndicesTable";
 import { ANNEE_MAX } from "./data/indices";
 import logoUrl from "./assets/logo-fnppr.jpg";
@@ -14,11 +15,12 @@ const FNPPR = {
   youtube: "https://www.youtube.com/channel/UCFz3OZlSKkXUpyieafRTqDg",
 };
 
-type Onglet = "indexation" | "bornes" | "denrees" | "indices";
+type Onglet = "indexation" | "bornes" | "taxe" | "denrees" | "indices";
 
 const ONGLETS: { id: Onglet; libelle: string }[] = [
   { id: "indexation", libelle: "Réévaluation" },
   { id: "bornes", libelle: "Bornes préfectorales" },
+  { id: "taxe", libelle: "Taxe foncière" },
   { id: "denrees", libelle: "Conversion denrées" },
   { id: "indices", libelle: "Tableau des indices" },
 ];
@@ -61,6 +63,7 @@ export function App() {
 
         {onglet === "indexation" && <IndexationCalculator />}
         {onglet === "bornes" && <BornesPrefectorales />}
+        {onglet === "taxe" && <TaxeFonciere />}
         {onglet === "denrees" && <DenreesConverter />}
         {onglet === "indices" && <IndicesTable />}
       </main>
