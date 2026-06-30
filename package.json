@@ -1,0 +1,27 @@
+{
+  "name": "fnppr-fermage",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Calculateur de fermage pour les propriétaires ruraux (indice national des fermages, bornes préfectorales, conversion en denrées).",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
+  }
+}
