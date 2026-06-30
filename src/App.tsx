@@ -19,7 +19,7 @@ type Onglet = "indexation" | "bornes" | "taxe" | "denrees" | "indices";
 
 const ONGLETS: { id: Onglet; libelle: string }[] = [
   { id: "indexation", libelle: "Réévaluation" },
-  { id: "bornes", libelle: "Bornes préfectorales" },
+  { id: "bornes", libelle: "Minimas et Maximas" },
   { id: "taxe", libelle: "Taxe foncière" },
   { id: "denrees", libelle: "Conversion denrées" },
   { id: "indices", libelle: "Tableau des indices" },
@@ -41,7 +41,7 @@ export function App() {
             <h1>Calculateur de fermage</h1>
             <p>
               Pour les propriétaires ruraux — réévaluation selon l'indice
-              national, bornes préfectorales et conversion des baux en denrées.
+              national, minimas et maximas et conversion des baux en denrées.
             </p>
           </div>
         </div>
