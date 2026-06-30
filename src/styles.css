@@ -1,16 +1,16 @@
 :root {
-  --vert-fonce: #2f5233;
-  --vert: #3d6b41;
-  --vert-clair: #e8f0e6;
-  --vert-accent: #6a994e;
-  --ble: #c9a227;
-  --gris-fond: #f5f6f4;
-  --gris-bord: #d9ddd6;
-  --gris-texte: #41463f;
-  --gris-doux: #6b7065;
+  --bleu-fonce: #0e3358;
+  --bleu: #15497b;
+  --bleu-clair: #e7eef5;
+  --bleu-accent: #2f6aa3;
+  --orange: #e8821e;
+  --gris-fond: #f4f6f8;
+  --gris-bord: #d7dce2;
+  --gris-texte: #3a3f45;
+  --gris-doux: #677078;
   --blanc: #ffffff;
   --rouge: #b3261e;
-  --orange: #b86a00;
+  --orange-warning: #b86a00;
   --rayon: 10px;
   --ombre: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.05);
   --max-largeur: 920px;
@@ -34,7 +34,7 @@ body {
 }
 
 .app-header {
-  background: linear-gradient(135deg, var(--vert-fonce), var(--vert));
+  background: linear-gradient(135deg, var(--bleu-fonce), var(--bleu));
   color: var(--blanc);
   padding: 2rem 1rem 2.25rem;
 }
@@ -44,12 +44,17 @@ body {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .app-header .logo {
-  font-size: 2.6rem;
-  line-height: 1;
+  width: 68px;
+  height: 68px;
+  flex: 0 0 auto;
+  background: var(--blanc);
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .app-header h1 {
@@ -96,12 +101,12 @@ main {
 }
 
 .tabs button:hover {
-  background: var(--vert-clair);
-  color: var(--vert-fonce);
+  background: var(--bleu-clair);
+  color: var(--bleu-fonce);
 }
 
 .tabs button.active {
-  background: var(--vert);
+  background: var(--bleu);
   color: var(--blanc);
 }
 
@@ -115,7 +120,7 @@ main {
 .card h2 {
   margin: 0 0 0.35rem;
   font-size: 1.25rem;
-  color: var(--vert-fonce);
+  color: var(--bleu-fonce);
 }
 
 .card .intro {
@@ -160,9 +165,9 @@ main {
 
 .champ input:focus,
 .champ select:focus {
-  outline: 2px solid var(--vert-accent);
+  outline: 2px solid var(--bleu-accent);
   outline-offset: 1px;
-  border-color: var(--vert-accent);
+  border-color: var(--bleu-accent);
 }
 
 .erreur {
@@ -177,30 +182,30 @@ main {
 
 .info {
   padding: 0.75rem 1rem;
-  background: #eef3fb;
-  color: #2c4a73;
-  border-left: 4px solid #4a72b0;
+  background: var(--bleu-clair);
+  color: var(--bleu-fonce);
+  border-left: 4px solid var(--bleu-accent);
   border-radius: 6px;
   font-size: 0.92rem;
 }
 
 .info a {
-  color: #2c4a73;
+  color: var(--bleu-fonce);
   font-weight: 600;
 }
 
 .resultat {
   margin-top: 1.5rem;
   padding: 1.25rem;
-  background: var(--vert-clair);
+  background: var(--bleu-clair);
   border-radius: var(--rayon);
-  border: 1px solid #d4e2cf;
+  border: 1px solid #cdddee;
 }
 
 .resultat .montant-principal {
   font-size: 2rem;
   font-weight: 800;
-  color: var(--vert-fonce);
+  color: var(--bleu-fonce);
   line-height: 1.1;
 }
 
@@ -221,7 +226,7 @@ main {
 }
 
 .detail-calcul code {
-  background: #eef2ec;
+  background: #eef2f7;
   padding: 0.05rem 0.35rem;
   border-radius: 4px;
   font-size: 0.9em;
@@ -236,13 +241,13 @@ main {
 }
 
 .badge.conforme {
-  background: #e3f1de;
-  color: var(--vert-fonce);
+  background: var(--bleu-clair);
+  color: var(--bleu-fonce);
 }
 
 .badge.inferieur {
   background: #fff3df;
-  color: var(--orange);
+  color: var(--orange-warning);
 }
 
 .badge.superieur {
@@ -276,15 +281,15 @@ td:first-child {
 }
 
 thead th {
-  color: var(--vert-fonce);
-  border-bottom: 2px solid var(--vert);
+  color: var(--bleu-fonce);
+  border-bottom: 2px solid var(--bleu);
   position: sticky;
   top: 0;
   background: var(--blanc);
 }
 
 tbody tr:hover {
-  background: var(--vert-clair);
+  background: var(--bleu-clair);
 }
 
 tr.surligne td,
@@ -301,7 +306,7 @@ tbody tr.surligne td {
 }
 
 .pos {
-  color: var(--vert);
+  color: var(--bleu);
 }
 .neg {
   color: var(--rouge);
@@ -325,7 +330,7 @@ tbody tr.surligne td {
 }
 
 .app-footer a {
-  color: var(--vert);
+  color: var(--bleu);
 }
 
 .app-footer ul {
@@ -333,9 +338,47 @@ tbody tr.surligne td {
   padding-left: 1.1rem;
 }
 
+/* Réseaux sociaux FNPPR */
+.reseaux {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.reseaux a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  background: var(--blanc);
+  border: 1px solid var(--gris-bord);
+  border-radius: 999px;
+  color: var(--bleu);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.reseaux a:hover {
+  background: var(--bleu);
+  border-color: var(--bleu);
+  color: var(--blanc);
+}
+
+.reseaux svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
 @media (max-width: 560px) {
   .app-header h1 {
     font-size: 1.3rem;
+  }
+  .app-header .logo {
+    width: 56px;
+    height: 56px;
   }
   .resultat .montant-principal {
     font-size: 1.6rem;
