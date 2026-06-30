@@ -428,6 +428,70 @@ tbody tr.surligne td {
   cursor: not-allowed;
 }
 
+/* Bloc d'une taxe (répartition taxe foncière) */
+.taxe-bloc {
+  border: 1px solid var(--gris-bord);
+  border-radius: var(--rayon);
+  padding: 1rem 1.1rem 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.taxe-bloc-titre {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  color: var(--bleu-fonce);
+  margin-bottom: 0.8rem;
+}
+
+.taxe-resultat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px dashed var(--gris-bord);
+  font-size: 0.93rem;
+}
+
+.taxe-faveur {
+  color: var(--orange);
+}
+.taxe-faveur strong {
+  color: var(--orange);
+}
+
+.explication {
+  margin-top: 1.5rem;
+  border: 1px solid var(--gris-bord);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  background: #fafbfc;
+}
+
+.explication summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--bleu-fonce);
+  padding: 0.4rem 0;
+}
+
+.explication p,
+.explication li {
+  font-size: 0.92rem;
+  color: var(--gris-texte);
+}
+
+.explication .formule {
+  background: #eef2f7;
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+}
+
 /* Réseaux sociaux FNPPR */
 .reseaux {
   display: flex;
