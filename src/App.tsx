@@ -4,7 +4,7 @@ import { BornesPrefectorales } from "./components/BornesPrefectorales";
 import { DenreesConverter } from "./components/DenreesConverter";
 import { IndicesTable } from "./components/IndicesTable";
 import { ANNEE_MAX } from "./data/indices";
-import logoUrl from "./assets/logo.svg";
+import logoUrl from "./assets/logo-fnppr.jpg";
 
 const FNPPR = {
   site: "https://www.propriete-rurale.com",
@@ -30,7 +30,11 @@ export function App() {
     <>
       <header className="app-header">
         <div className="inner">
-          <img className="logo" src={logoUrl} alt="Logo FNPPR" />
+          <img
+            className="logo"
+            src={logoUrl}
+            alt="Logo Fédération Nationale de la Propriété Privée Rurale"
+          />
           <div>
             <h1>Calculateur de fermage</h1>
             <p>

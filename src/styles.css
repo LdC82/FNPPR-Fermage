@@ -1,8 +1,8 @@
 :root {
-  --bleu-fonce: #0e3358;
-  --bleu: #15497b;
-  --bleu-clair: #e7eef5;
-  --bleu-accent: #2f6aa3;
+  --bleu-fonce: #082f50;
+  --bleu: #0d4877;
+  --bleu-clair: #e6edf4;
+  --bleu-accent: #2a6298;
   --orange: #e8821e;
   --gris-fond: #f4f6f8;
   --gris-bord: #d7dce2;
@@ -48,12 +48,12 @@ body {
 }
 
 .app-header .logo {
-  width: 68px;
-  height: 68px;
+  height: 64px;
+  width: auto;
   flex: 0 0 auto;
   background: var(--blanc);
-  border-radius: 14px;
-  padding: 6px;
+  border-radius: 12px;
+  padding: 8px 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -377,8 +377,8 @@ tbody tr.surligne td {
     font-size: 1.3rem;
   }
   .app-header .logo {
-    width: 56px;
-    height: 56px;
+    height: 50px;
+    padding: 6px 9px;
   }
   .resultat .montant-principal {
     font-size: 1.6rem;
