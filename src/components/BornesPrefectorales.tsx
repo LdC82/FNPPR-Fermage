@@ -67,13 +67,20 @@ export function BornesPrefectorales() {
 
   return (
     <section className="card" aria-labelledby="titre-bornes">
-      <h2 id="titre-bornes">Contrôle des bornes préfectorales</h2>
+      <h2 id="titre-bornes">Minimas et maximas du fermage</h2>
       <p className="intro">
         Le loyer d'un bail rural doit rester dans la fourchette (minimum /
         maximum par hectare) fixée par l'<strong>arrêté préfectoral</strong> de
         votre département, selon la nature et la catégorie des terres.
         Sélectionnez votre département pour accéder à son arrêté officiel ; les
         bornes sont pré-remplies lorsque les valeurs ont été vérifiées (✓).
+      </p>
+      <p className="info" style={{ marginBottom: "1.25rem" }}>
+        ⚠️ Cet outil concerne les <strong>terres</strong>. Pour les{" "}
+        <strong>loyers de bâtiments</strong> (bâtiments d'exploitation et
+        d'habitation), le mode de calcul est différent et varie selon chaque
+        département : référez-vous à l'<strong>arrêté préfectoral</strong> de
+        votre département.
       </p>
 
       {/* Sélection du département + catégorie */}
