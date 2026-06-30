@@ -1,7 +1,11 @@
 import { useMemo, useState } from "react";
 import { controleBornesPrefectorales } from "../lib/fermage";
 import { formaterEuros, formaterNombre } from "../lib/format";
-import { BAREMES_PREFECTORAUX } from "../data/baremes";
+import {
+  DEPARTEMENTS,
+  BAREMES_VERIFIES,
+  rechercheArreteUrl,
+} from "../data/baremes";
 
 const LIBELLE_CONFORMITE = {
   conforme: "Loyer conforme à la fourchette",
@@ -15,28 +19,36 @@ export function BornesPrefectorales() {
   const [maxHa, setMaxHa] = useState("180");
   const [loyer, setLoyer] = useState("1500");
 
-  // Preset (barème préfectoral) sélectionné
+  // Département et catégorie sélectionnés
   const [departementCode, setDepartementCode] = useState("");
   const [categorieId, setCategorieId] = useState("");
 
-  const departement = BAREMES_PREFECTORAUX.find(
-    (b) => b.code === departementCode,
-  );
+  const departement = DEPARTEMENTS.find((d) => d.code === departementCode);
+  const bareme = departementCode ? BAREMES_VERIFIES[departementCode] : undefined;
+  const categorieActive = bareme?.categories.find((c) => c.id === categorieId);
+  const rechercheUrl = departement ? rechercheArreteUrl(departement.nom) : "";
 
-  function appliquerPreset(code: string, catId: string) {
+  function choisirDepartement(code: string) {
     setDepartementCode(code);
+    const b = code ? BAREMES_VERIFIES[code] : undefined;
+    const premiere = b?.categories[0];
+    if (premiere) {
+      setCategorieId(premiere.id);
+      setMinHa(String(premiere.minParHa));
+      setMaxHa(String(premiere.maxParHa));
+    } else {
+      setCategorieId("");
+    }
+  }
+
+  function choisirCategorie(catId: string) {
     setCategorieId(catId);
-    const dep = BAREMES_PREFECTORAUX.find((b) => b.code === code);
-    const cat = dep?.categories.find((c) => c.id === catId);
+    const cat = bareme?.categories.find((c) => c.id === catId);
     if (cat) {
       setMinHa(String(cat.minParHa));
       setMaxHa(String(cat.maxParHa));
     }
   }
-
-  const categorieActive = departement?.categories.find(
-    (c) => c.id === categorieId,
-  );
 
   const calcul = useMemo(() => {
     const s = Number(surface.replace(",", "."));
@@ -59,49 +71,41 @@ export function BornesPrefectorales() {
       <p className="intro">
         Le loyer d'un bail rural doit rester dans la fourchette (minimum /
         maximum par hectare) fixée par l'<strong>arrêté préfectoral</strong> de
-        votre département, selon la nature et la catégorie des terres. Choisissez
-        un barème pré-rempli ou saisissez les bornes de votre arrêté.
+        votre département, selon la nature et la catégorie des terres.
+        Sélectionnez votre département pour accéder à son arrêté officiel ; les
+        bornes sont pré-remplies lorsque les valeurs ont été vérifiées (✓).
       </p>
 
-      {/* Sélecteur de barème préfectoral (preset) */}
+      {/* Sélection du département + catégorie */}
       <div className="grille" style={{ marginBottom: "0.5rem" }}>
         <div className="champ">
-          <label htmlFor="departement">Département (barème pré-rempli)</label>
-          <span className="aide">Pré-remplit les bornes par hectare</span>
+          <label htmlFor="departement">Département</label>
+          <span className="aide">✓ = bornes pré-remplies vérifiées</span>
           <select
             id="departement"
             value={departementCode}
-            onChange={(e) => {
-              const code = e.target.value;
-              const dep = BAREMES_PREFECTORAUX.find((b) => b.code === code);
-              const premiere = dep?.categories[0];
-              if (code && premiere) {
-                appliquerPreset(code, premiere.id);
-              } else {
-                setDepartementCode("");
-                setCategorieId("");
-              }
-            }}
+            onChange={(e) => choisirDepartement(e.target.value)}
           >
             <option value="">Saisie manuelle</option>
-            {BAREMES_PREFECTORAUX.map((b) => (
-              <option key={b.code} value={b.code}>
-                {b.code} — {b.departement}
+            {DEPARTEMENTS.map((d) => (
+              <option key={d.code} value={d.code}>
+                {BAREMES_VERIFIES[d.code] ? "✓ " : ""}
+                {d.code} — {d.nom}
               </option>
             ))}
           </select>
         </div>
 
-        {departement && (
+        {bareme && (
           <div className="champ" style={{ gridColumn: "span 2" }}>
             <label htmlFor="categorie">Catégorie de bien</label>
             <span className="aide">Nature / culture concernée</span>
             <select
               id="categorie"
               value={categorieId}
-              onChange={(e) => appliquerPreset(departementCode, e.target.value)}
+              onChange={(e) => choisirCategorie(e.target.value)}
             >
-              {departement.categories.map((c) => (
+              {bareme.categories.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.libelle}
                 </option>
@@ -111,15 +115,30 @@ export function BornesPrefectorales() {
         )}
       </div>
 
-      {departement && (
-        <p className="intro" style={{ fontSize: "0.85rem", marginBottom: "1rem" }}>
-          Barème : {departement.arrete} ({departement.campagne}).{" "}
-          <a href={departement.sourceUrl} target="_blank" rel="noopener noreferrer">
+      {/* Bandeau d'information selon le département choisi */}
+      {departement && bareme && (
+        <p
+          className="intro"
+          style={{ fontSize: "0.85rem", marginBottom: "1rem" }}
+        >
+          Barème vérifié : {bareme.arrete} ({bareme.campagne}).{" "}
+          <a href={bareme.sourceUrl} target="_blank" rel="noopener noreferrer">
             Source officielle
           </a>
           {categorieActive?.note ? ` — ${categorieActive.note}` : ""} Vérifiez
           toujours l'arrêté en vigueur avant toute décision.
         </p>
+      )}
+
+      {departement && !bareme && (
+        <div className="info" style={{ marginBottom: "1rem" }}>
+          Les bornes de la {departement.nom} ne sont pas encore intégrées.
+          Consultez l'arrêté préfectoral officiel puis saisissez les
+          minima/maxima ci-dessous.{" "}
+          <a href={rechercheUrl} target="_blank" rel="noopener noreferrer">
+            Trouver l'arrêté officiel ({departement.code})
+          </a>
+        </div>
       )}
 
       <div className="grille">
@@ -141,7 +160,6 @@ export function BornesPrefectorales() {
             value={minHa}
             onChange={(e) => {
               setMinHa(e.target.value);
-              setDepartementCode("");
               setCategorieId("");
             }}
           />
@@ -155,7 +173,6 @@ export function BornesPrefectorales() {
             value={maxHa}
             onChange={(e) => {
               setMaxHa(e.target.value);
-              setDepartementCode("");
               setCategorieId("");
             }}
           />

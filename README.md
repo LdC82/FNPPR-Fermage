@@ -42,13 +42,26 @@ Les fourchettes de loyer (minima / maxima par hectare) sont fixées
 variable selon la nature et la catégorie des terres. Il n'existe pas de barème
 national unique.
 
-Les barèmes pré-remplis sont stockés dans
-[`src/data/baremes.ts`](src/data/baremes.ts). Le fichier est amorcé avec un
-barème réel et sourcé (département du **Cher**, arrêté DDT-2024-376 du
-19 septembre 2024). **Pour ajouter un département**, ajoutez une entrée à
-`BAREMES_PREFECTORAUX` en recopiant les minima/maxima de l'arrêté préfectoral en
-vigueur, avec sa référence, sa campagne et l'URL de la source officielle. Pour
-les départements absents, l'utilisateur saisit les valeurs de son propre arrêté.
+Les données sont dans [`src/data/baremes.ts`](src/data/baremes.ts), structuré
+en deux parties :
+
+- **`DEPARTEMENTS`** : la liste de **tous les départements français** (métropole
+  + outre-mer). Le module Bornes propose chacun d'eux et, via
+  `rechercheArreteUrl()`, un lien menant directement à l'arrêté préfectoral
+  officiel du département (recherche ciblée sur les sites `.gouv.fr`, robuste
+  aux refontes de sites).
+- **`BAREMES_VERIFIES`** : un registre de barèmes **réels, sourcés et datés**,
+  extraits des arrêtés officiels. Les minima/maxima ne sont pré-remplis (et
+  signalés par ✓ dans la liste) que pour ces départements. Amorcé avec le
+  **Cher** (arrêté DDT-2024-376 du 19 septembre 2024).
+
+Il n'existe pas de base nationale unique : chaque préfecture publie son propre
+arrêté, révisé chaque année et variable selon la nature des terres. **Pour
+ajouter un barème vérifié**, ajoutez une entrée à `BAREMES_VERIFIES` (clé = code
+département) en recopiant les valeurs de l'arrêté en vigueur, avec sa référence,
+sa campagne et l'URL de la source. Pour les départements non encore intégrés,
+l'utilisateur consulte l'arrêté officiel via le lien fourni et saisit les
+valeurs manuellement.
 
 ## Déploiement
 
